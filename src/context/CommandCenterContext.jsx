@@ -172,6 +172,35 @@ function reducer(state, action) {
         ...state,
         showAllZones: action.showAllZones,
       };
+    case "SET_VISIBLE_METRIC":
+      return {
+        ...state,
+        visibleMetric: action.visibleMetric,
+      };
+    case "SET_SEARCH_QUERY":
+      return {
+        ...state,
+        searchQuery: action.searchQuery,
+      };
+    case "SET_FILTER":
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          [action.name]: action.value,
+        },
+      };
+    case "CLEAR_FILTERS":
+      return {
+        ...state,
+        searchQuery: "",
+        filters: initialState.filters,
+      };
+    case "SET_SCENARIO":
+      return {
+        ...state,
+        scenario: action.scenario,
+      };
     default:
       return state;
   }
@@ -305,12 +334,24 @@ export function CommandCenterProvider({ children }) {
     () => selectedHour?.recommendations ?? [],
     [selectedHour],
   );
-  const visibleRecommendations = useMemo(() => {
+  const capacityRecommendations = useMemo(() => {
     if (state.capacity === "all") {
       return recommendations;
     }
     return recommendations.slice(0, state.capacity);
   }, [recommendations, state.capacity]);
+  const visibleRecommendations = useMemo(() => {
+    return capacityRecommendations.filter((recommendation) =>
+      recommendationMatchesFilters(recommendation, state.searchQuery, state.filters),
+    );
+  }, [capacityRecommendations, state.filters, state.searchQuery]);
+  const selectedRecommendation = useMemo(() => {
+    return (
+      recommendations.find(
+        (recommendation) => recommendation.zoneIndex === state.selectedZoneId,
+      ) ?? null
+    );
+  }, [recommendations, state.selectedZoneId]);
 
   const availableDates = useMemo(
     () => state.metadata?.availableDates ?? [],
@@ -361,6 +402,13 @@ export function CommandCenterProvider({ children }) {
         dispatch({ type: "SET_SELECTED_ZONE", zoneId }),
       setShowAllZones: (showAllZones) =>
         dispatch({ type: "SET_SHOW_ALL_ZONES", showAllZones }),
+      setVisibleMetric: (visibleMetric) =>
+        dispatch({ type: "SET_VISIBLE_METRIC", visibleMetric }),
+      setSearchQuery: (searchQuery) =>
+        dispatch({ type: "SET_SEARCH_QUERY", searchQuery }),
+      setFilter: (name, value) => dispatch({ type: "SET_FILTER", name, value }),
+      clearFilters: () => dispatch({ type: "CLEAR_FILTERS" }),
+      setScenario: (scenario) => dispatch({ type: "SET_SCENARIO", scenario }),
     }),
     [state.metadata],
   );
@@ -374,8 +422,10 @@ export function CommandCenterProvider({ children }) {
       canGoNext,
       canGoPrevious,
       currentIndex,
+      capacityRecommendations,
       recommendations,
       selectedHour,
+      selectedRecommendation,
       selectedScheduleEntry,
       visibleRecommendations,
     }),
@@ -385,9 +435,11 @@ export function CommandCenterProvider({ children }) {
       availableHoursForSelectedDate,
       canGoNext,
       canGoPrevious,
+      capacityRecommendations,
       currentIndex,
       recommendations,
       selectedHour,
+      selectedRecommendation,
       selectedScheduleEntry,
       state,
       visibleRecommendations,
@@ -399,4 +451,49 @@ export function CommandCenterProvider({ children }) {
       {children}
     </CommandCenterContext.Provider>
   );
+}
+
+function recommendationMatchesFilters(recommendation, searchQuery, filters) {
+  const query = searchQuery.trim().toLowerCase();
+  if (
+    query &&
+    !String(recommendation.zoneIndex).includes(query) &&
+    !String(recommendation.zoneGridId).toLowerCase().includes(query)
+  ) {
+    return false;
+  }
+
+  if (
+    filters.confidenceTier !== "all" &&
+    recommendation.confidenceTier !== filters.confidenceTier
+  ) {
+    return false;
+  }
+  if (
+    filters.patrolAction !== "all" &&
+    recommendation.patrolAction !== filters.patrolAction
+  ) {
+    return false;
+  }
+  if (
+    filters.disruptionClass !== "all" &&
+    recommendation.disruptionClass !== filters.disruptionClass
+  ) {
+    return false;
+  }
+  if (
+    filters.verificationRequired !== "all" &&
+    String(recommendation.verificationRequired) !== filters.verificationRequired
+  ) {
+    return false;
+  }
+  if (
+    filters.currentIncidentEvidence !== "all" &&
+    String(recommendation.hasCurrentIncidentEvidence) !==
+      filters.currentIncidentEvidence
+  ) {
+    return false;
+  }
+
+  return true;
 }

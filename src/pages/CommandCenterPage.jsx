@@ -5,7 +5,7 @@ import {
   CommandLoadingState,
 } from "../components/timeline/CommandStatus.jsx";
 import { PageShell } from "../components/layout/PageShell.jsx";
-import { MapUnavailablePanel } from "../components/map/MapUnavailablePanel.jsx";
+import { MapplsMap } from "../components/map/MapplsMap.jsx";
 import { RecommendationRail } from "../components/recommendations/RecommendationRail.jsx";
 import { SummaryCards } from "../components/timeline/SummaryCards.jsx";
 import { TimeControls } from "../components/timeline/TimeControls.jsx";
@@ -75,7 +75,7 @@ function CommandCenterContent() {
           <SummaryCards />
 
           <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_400px]">
-            <MapUnavailablePanel />
+            <MapplsMap />
             <RecommendationRail />
           </section>
         </div>

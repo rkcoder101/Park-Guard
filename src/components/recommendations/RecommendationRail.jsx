@@ -1,6 +1,8 @@
 import { CircleAlert, ListFilter } from "lucide-react";
 import { Badge } from "../common/Badge.jsx";
 import { CapacityControl } from "./CapacityControl.jsx";
+import { RecommendationFilters } from "./RecommendationFilters.jsx";
+import { ZoneDetailPanel } from "./ZoneDetailPanel.jsx";
 import { useCommandCenter } from "../../context/useCommandCenter.js";
 import { formatPercent, formatScore } from "../../lib/formatting/dateTime.js";
 import {
@@ -14,6 +16,7 @@ export function RecommendationRail() {
     actions,
     dailyError,
     dailyStatus,
+    capacityRecommendations,
     recommendations,
     selectedHour,
     selectedZoneId,
@@ -27,7 +30,7 @@ export function RecommendationRail() {
           <div>
             <h2 className="text-lg font-semibold">Recommendation rail</h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              List and map selection will synchronize after Mappls integration.
+              Selecting a recommendation updates the map when Mappls is available.
             </p>
           </div>
           <ListFilter
@@ -39,6 +42,7 @@ export function RecommendationRail() {
           <CapacityControl />
         </div>
       </div>
+      <RecommendationFilters />
 
       <div className="p-4">
         {dailyStatus === "loading" ? (
@@ -64,14 +68,18 @@ export function RecommendationRail() {
         visibleRecommendations.length === 0 ? (
           <RailNotice
             title="No recommendations match the selected filters."
-            copy="Clear filters will appear in the filtering stage."
+            copy="Clear filters to return to the selected capacity view."
           />
         ) : null}
 
         {visibleRecommendations.length > 0 ? (
           <div className="space-y-3">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-              Showing {visibleRecommendations.length} of {recommendations.length}
+              Showing {visibleRecommendations.length} of{" "}
+              {capacityRecommendations.length} visible recommendation
+              {capacityRecommendations.length === 1 ? "" : "s"} from{" "}
+              {recommendations.length} adaptive recommendation
+              {recommendations.length === 1 ? "" : "s"}
             </p>
             {visibleRecommendations.map((recommendation) => (
               <RecommendationCard
@@ -83,6 +91,12 @@ export function RecommendationRail() {
                 recommendation={recommendation}
               />
             ))}
+          </div>
+        ) : null}
+
+        {selectedHour?.recommendedPatrols > 0 ? (
+          <div className="mt-4">
+            <ZoneDetailPanel />
           </div>
         ) : null}
       </div>

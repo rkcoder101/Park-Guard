@@ -2,7 +2,7 @@ import { AlertTriangle, Map } from "lucide-react";
 import { Button } from "../common/Button.jsx";
 import { Panel } from "../common/Panel.jsx";
 
-export function MapUnavailablePanel() {
+export function MapUnavailablePanel({ onRetry, reason }) {
   const hasMapKey = Boolean(import.meta.env.VITE_MAPPLS_MAP_SDK_KEY);
 
   return (
@@ -41,6 +41,14 @@ export function MapUnavailablePanel() {
             <span className="font-semibold text-foreground">
               {hasMapKey ? "configured" : "missing VITE_MAPPLS_MAP_SDK_KEY"}
             </span>
+            {reason ? (
+              <span className="mt-2 block">
+                Map status:{" "}
+                <span className="font-semibold text-foreground">
+                  {formatMapReason(reason)}
+                </span>
+              </span>
+            ) : null}
           </div>
         </div>
       </div>
@@ -48,10 +56,25 @@ export function MapUnavailablePanel() {
         <p className="text-xs text-muted-foreground">
           No alternate map provider is used.
         </p>
-        <Button size="sm" type="button" variant="secondary">
+        <Button onClick={onRetry} size="sm" type="button" variant="secondary">
           Retry later
         </Button>
       </div>
     </Panel>
   );
+}
+
+function formatMapReason(reason) {
+  const labels = {
+    "grid-creation-failed": "Grid overlay could not be created",
+    "mappls-global-unavailable": "SDK global unavailable",
+    "mappls-map-load-timeout": "Map initialization timed out",
+    "mappls-sdk-load-failed": "SDK script failed to load",
+    "mappls-sdk-timeout": "SDK script timed out",
+    "missing-key": "Missing map credential",
+    "missing-mappls-key": "Missing map credential",
+    "overlay-creation-failed": "Recommendation overlays could not be created",
+    "selection-overlay-failed": "Selected-zone overlay could not be created",
+  };
+  return labels[reason] ?? "Map provider unavailable";
 }
