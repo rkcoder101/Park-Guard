@@ -31,9 +31,10 @@ export function MapUnavailablePanel() {
             Historical recommendations will remain usable without the map.
           </h3>
           <p className="mt-3 text-sm leading-6 text-muted-foreground">
-            Stage 1 provides the controlled boundary only. The visual basemap,
-            zone polygons, markers, and 500 m coverage circle will be added
-            after the current Mappls Web Maps SDK method is confirmed.
+            Timeline controls, adaptive recommendation lists, and zone
+            selection are active. The visual basemap, polygons, markers, and
+            500 m coverage circle will be added after the current Mappls Web
+            Maps SDK method is confirmed.
           </p>
           <div className="mt-5 rounded-md border border-border bg-background/70 px-4 py-3 text-left text-xs text-muted-foreground">
             Credential status:{" "}

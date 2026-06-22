@@ -1,97 +1,85 @@
-import { Clock3, Gauge, ListFilter } from "lucide-react";
+import { Database, MapPinned } from "lucide-react";
 import { Badge } from "../components/common/Badge.jsx";
-import { Button } from "../components/common/Button.jsx";
-import { Panel } from "../components/common/Panel.jsx";
+import {
+  CommandErrorState,
+  CommandLoadingState,
+} from "../components/timeline/CommandStatus.jsx";
 import { PageShell } from "../components/layout/PageShell.jsx";
 import { MapUnavailablePanel } from "../components/map/MapUnavailablePanel.jsx";
-
-const summaryCards = [
-  {
-    label: "Recommended patrols",
-    value: "Pending data",
-  },
-  {
-    label: "Severe-hotspot probability",
-    value: "Pending data",
-  },
-  {
-    label: "Mean data confidence",
-    value: "Pending data",
-  },
-  {
-    label: "Zones requiring verification",
-    value: "Pending data",
-  },
-];
+import { RecommendationRail } from "../components/recommendations/RecommendationRail.jsx";
+import { SummaryCards } from "../components/timeline/SummaryCards.jsx";
+import { TimeControls } from "../components/timeline/TimeControls.jsx";
+import { CommandCenterProvider } from "../context/CommandCenterContext.jsx";
+import { useCommandCenter } from "../context/useCommandCenter.js";
+import { formatTargetTime } from "../lib/formatting/dateTime.js";
 
 export function CommandCenterPage() {
+  return (
+    <CommandCenterProvider>
+      <CommandCenterContent />
+    </CommandCenterProvider>
+  );
+}
+
+function CommandCenterContent() {
+  const {
+    bootstrapStatus,
+    error,
+    manifest,
+    metadata,
+    mode,
+    selectedTargetTime,
+    zones,
+  } = useCommandCenter();
+
   return (
     <PageShell
       action={<Badge variant="amber">Historical simulation</Badge>}
       className="py-6"
     >
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="cyan">Simulated Live</Badge>
-            <Badge>Historical target hour</Badge>
-          </div>
-          <h1 className="mt-3 text-3xl font-black">Command Centre</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Stage 1 shell only. Data loading, replay controls, and
-            recommendations arrive in later approved stages.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button disabled type="button" variant="secondary">
-            <Clock3 className="h-4 w-4" aria-hidden="true" />
-            Peak Demo
-          </Button>
-          <Button disabled type="button" variant="secondary">
-            Quiet Hour
-          </Button>
-        </div>
-      </div>
-
-      <section className="grid gap-3 md:grid-cols-4">
-        {summaryCards.map((card) => (
-          <Panel className="p-4" key={card.label}>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-              {card.label}
-            </p>
-            <p className="mt-3 text-lg font-bold text-foreground">
-              {card.value}
-            </p>
-          </Panel>
-        ))}
-      </section>
-
-      <section className="mt-5 grid gap-5 xl:grid-cols-[minmax(0,1fr)_380px]">
-        <MapUnavailablePanel />
-        <Panel className="min-h-[520px]">
-          <div className="flex items-center justify-between gap-3">
+      {bootstrapStatus === "loading" ? <CommandLoadingState /> : null}
+      {bootstrapStatus === "error" ? <CommandErrorState error={error} /> : null}
+      {bootstrapStatus === "ready" ? (
+        <div className="space-y-5">
+          <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <h2 className="text-lg font-semibold">Recommendation rail</h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Waiting for generated static recommendation files.
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge variant="cyan">
+                  {mode === "simulated-live" ? "Simulated Live" : "Historical"}
+                </Badge>
+                <Badge>Historical target hour</Badge>
+              </div>
+              <h1 className="mt-3 text-3xl font-black">Command Centre</h1>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {selectedTargetTime
+                  ? `${formatTargetTime(selectedTargetTime)} IST`
+                  : "Target hour unavailable"}
               </p>
             </div>
-            <ListFilter
-              className="h-5 w-5 text-muted-foreground"
-              aria-hidden="true"
-            />
+            <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+              <span className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2">
+                <Database className="h-4 w-4 text-primary" aria-hidden="true" />
+                {metadata?.recommendationCount.toLocaleString("en-IN")} recommendations
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2">
+                <MapPinned className="h-4 w-4 text-primary" aria-hidden="true" />
+                {zones?.features?.length.toLocaleString("en-IN")} zones
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2">
+                {manifest?.recommendationFiles?.length} date files cached on demand
+              </span>
+            </div>
           </div>
-          <div className="mt-8 rounded-md border border-dashed border-border bg-background/55 p-5 text-sm leading-6 text-muted-foreground">
-            This shell will support Top 5, Top 10, all recommended zones,
-            filters, search, and synchronized map/list selection after the data
-            pipeline stage.
-          </div>
-          <div className="mt-5 flex items-center gap-2 text-xs text-muted-foreground">
-            <Gauge className="h-4 w-4" aria-hidden="true" />
-            Action controls remain recommendation labels, not dispatch buttons.
-          </div>
-        </Panel>
-      </section>
+
+          <TimeControls />
+          <SummaryCards />
+
+          <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_400px]">
+            <MapUnavailablePanel />
+            <RecommendationRail />
+          </section>
+        </div>
+      ) : null}
     </PageShell>
   );
 }
