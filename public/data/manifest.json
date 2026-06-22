@@ -1,0 +1,282 @@
+{
+  "version": 1,
+  "generatedAt": "2026-06-22T18:23:31+00:00",
+  "recommendationFiles": [
+    {
+      "date": "2024-02-23",
+      "path": "recommendations/2024-02-23.json",
+      "hourCount": 8,
+      "recommendationCount": 3
+    },
+    {
+      "date": "2024-02-24",
+      "path": "recommendations/2024-02-24.json",
+      "hourCount": 24,
+      "recommendationCount": 340
+    },
+    {
+      "date": "2024-02-25",
+      "path": "recommendations/2024-02-25.json",
+      "hourCount": 24,
+      "recommendationCount": 345
+    },
+    {
+      "date": "2024-02-26",
+      "path": "recommendations/2024-02-26.json",
+      "hourCount": 24,
+      "recommendationCount": 332
+    },
+    {
+      "date": "2024-02-27",
+      "path": "recommendations/2024-02-27.json",
+      "hourCount": 24,
+      "recommendationCount": 319
+    },
+    {
+      "date": "2024-02-28",
+      "path": "recommendations/2024-02-28.json",
+      "hourCount": 24,
+      "recommendationCount": 323
+    },
+    {
+      "date": "2024-02-29",
+      "path": "recommendations/2024-02-29.json",
+      "hourCount": 24,
+      "recommendationCount": 334
+    },
+    {
+      "date": "2024-03-01",
+      "path": "recommendations/2024-03-01.json",
+      "hourCount": 24,
+      "recommendationCount": 334
+    },
+    {
+      "date": "2024-03-02",
+      "path": "recommendations/2024-03-02.json",
+      "hourCount": 24,
+      "recommendationCount": 325
+    },
+    {
+      "date": "2024-03-03",
+      "path": "recommendations/2024-03-03.json",
+      "hourCount": 24,
+      "recommendationCount": 353
+    },
+    {
+      "date": "2024-03-04",
+      "path": "recommendations/2024-03-04.json",
+      "hourCount": 24,
+      "recommendationCount": 327
+    },
+    {
+      "date": "2024-03-05",
+      "path": "recommendations/2024-03-05.json",
+      "hourCount": 24,
+      "recommendationCount": 332
+    },
+    {
+      "date": "2024-03-06",
+      "path": "recommendations/2024-03-06.json",
+      "hourCount": 24,
+      "recommendationCount": 340
+    },
+    {
+      "date": "2024-03-07",
+      "path": "recommendations/2024-03-07.json",
+      "hourCount": 24,
+      "recommendationCount": 328
+    },
+    {
+      "date": "2024-03-08",
+      "path": "recommendations/2024-03-08.json",
+      "hourCount": 24,
+      "recommendationCount": 342
+    },
+    {
+      "date": "2024-03-09",
+      "path": "recommendations/2024-03-09.json",
+      "hourCount": 24,
+      "recommendationCount": 345
+    },
+    {
+      "date": "2024-03-10",
+      "path": "recommendations/2024-03-10.json",
+      "hourCount": 24,
+      "recommendationCount": 344
+    },
+    {
+      "date": "2024-03-11",
+      "path": "recommendations/2024-03-11.json",
+      "hourCount": 24,
+      "recommendationCount": 319
+    },
+    {
+      "date": "2024-03-12",
+      "path": "recommendations/2024-03-12.json",
+      "hourCount": 24,
+      "recommendationCount": 322
+    },
+    {
+      "date": "2024-03-13",
+      "path": "recommendations/2024-03-13.json",
+      "hourCount": 24,
+      "recommendationCount": 337
+    },
+    {
+      "date": "2024-03-14",
+      "path": "recommendations/2024-03-14.json",
+      "hourCount": 24,
+      "recommendationCount": 324
+    },
+    {
+      "date": "2024-03-15",
+      "path": "recommendations/2024-03-15.json",
+      "hourCount": 24,
+      "recommendationCount": 338
+    },
+    {
+      "date": "2024-03-16",
+      "path": "recommendations/2024-03-16.json",
+      "hourCount": 24,
+      "recommendationCount": 330
+    },
+    {
+      "date": "2024-03-17",
+      "path": "recommendations/2024-03-17.json",
+      "hourCount": 24,
+      "recommendationCount": 338
+    },
+    {
+      "date": "2024-03-18",
+      "path": "recommendations/2024-03-18.json",
+      "hourCount": 24,
+      "recommendationCount": 319
+    },
+    {
+      "date": "2024-03-19",
+      "path": "recommendations/2024-03-19.json",
+      "hourCount": 24,
+      "recommendationCount": 322
+    },
+    {
+      "date": "2024-03-20",
+      "path": "recommendations/2024-03-20.json",
+      "hourCount": 24,
+      "recommendationCount": 324
+    },
+    {
+      "date": "2024-03-21",
+      "path": "recommendations/2024-03-21.json",
+      "hourCount": 24,
+      "recommendationCount": 324
+    },
+    {
+      "date": "2024-03-22",
+      "path": "recommendations/2024-03-22.json",
+      "hourCount": 24,
+      "recommendationCount": 325
+    },
+    {
+      "date": "2024-03-23",
+      "path": "recommendations/2024-03-23.json",
+      "hourCount": 24,
+      "recommendationCount": 321
+    },
+    {
+      "date": "2024-03-24",
+      "path": "recommendations/2024-03-24.json",
+      "hourCount": 24,
+      "recommendationCount": 341
+    },
+    {
+      "date": "2024-03-25",
+      "path": "recommendations/2024-03-25.json",
+      "hourCount": 24,
+      "recommendationCount": 325
+    },
+    {
+      "date": "2024-03-26",
+      "path": "recommendations/2024-03-26.json",
+      "hourCount": 24,
+      "recommendationCount": 325
+    },
+    {
+      "date": "2024-03-27",
+      "path": "recommendations/2024-03-27.json",
+      "hourCount": 24,
+      "recommendationCount": 329
+    },
+    {
+      "date": "2024-03-28",
+      "path": "recommendations/2024-03-28.json",
+      "hourCount": 24,
+      "recommendationCount": 339
+    },
+    {
+      "date": "2024-03-29",
+      "path": "recommendations/2024-03-29.json",
+      "hourCount": 24,
+      "recommendationCount": 330
+    },
+    {
+      "date": "2024-03-30",
+      "path": "recommendations/2024-03-30.json",
+      "hourCount": 24,
+      "recommendationCount": 341
+    },
+    {
+      "date": "2024-03-31",
+      "path": "recommendations/2024-03-31.json",
+      "hourCount": 24,
+      "recommendationCount": 350
+    },
+    {
+      "date": "2024-04-01",
+      "path": "recommendations/2024-04-01.json",
+      "hourCount": 24,
+      "recommendationCount": 335
+    },
+    {
+      "date": "2024-04-02",
+      "path": "recommendations/2024-04-02.json",
+      "hourCount": 24,
+      "recommendationCount": 340
+    },
+    {
+      "date": "2024-04-03",
+      "path": "recommendations/2024-04-03.json",
+      "hourCount": 24,
+      "recommendationCount": 333
+    },
+    {
+      "date": "2024-04-04",
+      "path": "recommendations/2024-04-04.json",
+      "hourCount": 24,
+      "recommendationCount": 345
+    },
+    {
+      "date": "2024-04-05",
+      "path": "recommendations/2024-04-05.json",
+      "hourCount": 24,
+      "recommendationCount": 337
+    },
+    {
+      "date": "2024-04-06",
+      "path": "recommendations/2024-04-06.json",
+      "hourCount": 24,
+      "recommendationCount": 341
+    },
+    {
+      "date": "2024-04-07",
+      "path": "recommendations/2024-04-07.json",
+      "hourCount": 24,
+      "recommendationCount": 350
+    },
+    {
+      "date": "2024-04-08",
+      "path": "recommendations/2024-04-08.json",
+      "hourCount": 24,
+      "recommendationCount": 351
+    }
+  ]
+}

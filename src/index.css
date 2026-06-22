@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --background: 216 62% 7%;
+    --foreground: 210 32% 94%;
+    --card: 217 47% 11%;
+    --card-foreground: 210 32% 94%;
+    --popover: 217 47% 11%;
+    --popover-foreground: 210 32% 94%;
+    --primary: 188 94% 48%;
+    --primary-foreground: 217 62% 8%;
+    --secondary: 214 34% 17%;
+    --secondary-foreground: 210 32% 94%;
+    --muted: 217 30% 16%;
+    --muted-foreground: 214 18% 69%;
+    --accent: 207 72% 24%;
+    --accent-foreground: 205 46% 92%;
+    --destructive: 1 77% 57%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 213 32% 22%;
+    --input: 213 32% 22%;
+    --ring: 188 94% 48%;
+    --operational-cyan: 188 94% 48%;
+    --operational-red: 1 77% 57%;
+    --operational-amber: 39 94% 58%;
+    --operational-blue: 212 92% 62%;
+    --operational-green: 154 62% 48%;
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    background: hsl(var(--background));
+  }
+
+  body {
+    @apply min-h-screen bg-background text-foreground antialiased;
+    font-feature-settings:
+      "cv02",
+      "cv03",
+      "cv04",
+      "cv11";
+  }
+
+  button,
+  a,
+  input,
+  select {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.28);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
