@@ -1,0 +1,13 @@
+section,metric,system_value,comparator_value,relative_change_percent,comparison
+Frozen forecast,Pressure capture at K=25,0.3992968797683716,0.2928124964237213,36.366065979003906,Recent-24-hour baseline
+Frozen forecast,Hotspot recall at K=25 and threshold=8,0.5023961661341853,0.3730031948881789,34.68950749464667,Recent-24-hour baseline
+Frozen forecast,NDCG at K=25,0.38336145877838135,0.21935108304023743,74.77071380615234,Recent-24-hour baseline
+Spatial holdout,Pressure capture at proportional K,0.3494791666666667,0.2574739583333333,35.73379184788108,Unseen-zone recent-24-hour baseline
+Spatial holdout,Hotspot recall at proportional K,0.4464856230031949,0.3266773162939297,36.674816625916876,Unseen-zone recent-24-hour baseline
+Temporal ablation,Pressure capture versus static heatmap,0.38789063692092896,0.3496614694595337,10.933197021484375,Static heatmap-like model
+Temporal ablation,Pressure capture versus no recurrence,0.38789063692092896,0.3671354055404663,5.653285980224609,No-temporal-recurrence model
+Adaptive dispatch,Mean patrols deployed at capacity 25,13.825367647058824,25.0,-44.698529411764696,Forced fixed-capacity deployment
+Adaptive dispatch,Direct pressure capture retained,0.3685156,0.38776043,95.03692782680275,Percentage retained versus fixed capacity
+Adaptive dispatch,Area hotspot coverage retained,0.6797124600638977,0.6940894568690096,97.92865362485615,Percentage retained versus fixed capacity
+Confidence audit,Maximum absolute calibration bias,0.0015435119858011603,0.0,,Across test confidence bands
+Scenario analysis,Mean local gain per test hour at 60%,15.310297012329102,,,Non-causal hypothetical suppression scenario

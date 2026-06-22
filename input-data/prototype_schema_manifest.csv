@@ -1,0 +1,43 @@
+field,dtype,nullable,description
+recommendation_id,object,False,Unique target-hour and zone recommendation identifier.
+target_time,"datetime64[ns, Asia/Kolkata]",False,Start of the forecasted one-hour interval in IST.
+split,object,False,"Supporting forecast, evidence or operational field."
+selection_order,int64,False,Balanced patrol priority within the hour.
+dispatch_tier,object,False,"Highest, secondary or extended coverage priority."
+recommended_patrols,int64,False,Total recommendations issued for the target hour.
+deployment_status,object,False,"Supporting forecast, evidence or operational field."
+zone_index,int32,False,Internal 250 m zone identifier.
+zone_250m,object,False,Human-readable 250 m grid identifier.
+latitude,float64,False,Zone-centroid latitude.
+longitude,float64,False,Zone-centroid longitude.
+spatial_priority_score,float32,False,Forecast score with validated distance context.
+calibrated_pressure,float32,False,Expected next-hour local incident pressure.
+hotspot_probability,float32,False,Calibrated probability of at least eight incidents.
+hotspot_probability_percent,float32,False,"Supporting forecast, evidence or operational field."
+incident_count,int32,False,"Supporting forecast, evidence or operational field."
+unique_vehicles,int32,False,"Supporting forecast, evidence or operational field."
+distance_neighbour_exposure,float32,False,"Supporting forecast, evidence or operational field."
+active_neighbour_count,int16,False,"Supporting forecast, evidence or operational field."
+current_burst_z,float32,False,"Supporting forecast, evidence or operational field."
+relative_to_same_hour,float32,False,"Supporting forecast, evidence or operational field."
+consecutive_active_hours_before,int16,False,"Supporting forecast, evidence or operational field."
+explicit_road_obstruction,int8,False,"Supporting forecast, evidence or operational field."
+large_vehicle_evidence,int8,False,"Supporting forecast, evidence or operational field."
+multi_offence_evidence,int8,False,"Supporting forecast, evidence or operational field."
+disruption_class,category,False,"Supporting forecast, evidence or operational field."
+observation_confidence,float32,False,Reliability of the historical observation process.
+confidence_tier,object,False,"Low, medium or high observation confidence."
+verification_required,bool,False,Whether officers should verify conditions before action.
+has_current_incident_evidence,bool,False,"Supporting forecast, evidence or operational field."
+patrol_action,object,False,Recommended operational response.
+reason_codes,object,False,Pipe-separated machine-readable explanation codes.
+evidence_summary,object,False,Human-readable evidence explanation.
+confidence_note,object,False,"Supporting forecast, evidence or operational field."
+local_pressure_removed_30pct,float32,False,"Supporting forecast, evidence or operational field."
+local_pressure_removed_60pct,float32,False,Hypothetical local pressure removed under 60% suppression.
+local_pressure_removed_90pct,float32,False,"Supporting forecast, evidence or operational field."
+dispatch_threshold_score,float64,False,"Supporting forecast, evidence or operational field."
+patrol_balance_alpha,float64,False,"Supporting forecast, evidence or operational field."
+coverage_radius_m,int64,False,"Supporting forecast, evidence or operational field."
+scenario_scope,object,False,Warning that scenario outputs are non-causal.
+spatial_context_role,object,False,Warning that neighbourhood context is not propagation.
