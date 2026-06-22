@@ -23,6 +23,7 @@ export function TimeControls() {
     metadata,
     mode,
     playbackSpeed,
+    prefersReducedMotion,
     selectedTargetTime,
   } = useCommandCenter();
 
@@ -34,6 +35,7 @@ export function TimeControls() {
         <div className="flex flex-wrap items-center gap-2">
           <Button
             aria-label="Previous hour"
+            aria-keyshortcuts="ArrowLeft"
             disabled={!canGoPrevious}
             onClick={actions.previousHour}
             size="sm"
@@ -45,7 +47,8 @@ export function TimeControls() {
           </Button>
           <Button
             aria-label={isPlaying ? "Pause replay" : "Play replay"}
-            disabled={!canGoNext}
+            aria-keyshortcuts="Space"
+            disabled={!canGoNext || prefersReducedMotion}
             onClick={() => actions.setPlaying(!isPlaying)}
             size="sm"
             type="button"
@@ -59,6 +62,7 @@ export function TimeControls() {
           </Button>
           <Button
             aria-label="Next hour"
+            aria-keyshortcuts="ArrowRight"
             disabled={!canGoNext}
             onClick={actions.nextHour}
             size="sm"
@@ -163,8 +167,11 @@ export function TimeControls() {
           ))}
         </div>
         <p className="text-xs leading-5 text-muted-foreground">
-          Historical simulation. Replay spans {metadata?.minimumTargetTime} to{" "}
-          {metadata?.maximumTargetTime}; no new live data is implied.
+          Historical simulation in IST. Replay spans {metadata?.minimumTargetTime}{" "}
+          to {metadata?.maximumTargetTime}; no new live data is implied.
+          {prefersReducedMotion
+            ? " Autoplay is paused because reduced motion is enabled."
+            : ""}
         </p>
       </div>
     </Panel>

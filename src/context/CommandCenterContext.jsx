@@ -43,6 +43,7 @@ const initialState = {
   visibleMetric: "priority",
   showAllZones: false,
   scenario: 60,
+  prefersReducedMotion: false,
 };
 
 function hasScheduleTime(schedule, targetTime) {
@@ -142,7 +143,7 @@ function reducer(state, action) {
     case "SET_PLAYING":
       return {
         ...state,
-        isPlaying: action.isPlaying,
+        isPlaying: state.prefersReducedMotion ? false : action.isPlaying,
       };
     case "SET_PLAYBACK_SPEED":
       return {
@@ -200,6 +201,12 @@ function reducer(state, action) {
       return {
         ...state,
         scenario: action.scenario,
+      };
+    case "SET_REDUCED_MOTION":
+      return {
+        ...state,
+        isPlaying: action.prefersReducedMotion ? false : state.isPlaying,
+        prefersReducedMotion: action.prefersReducedMotion,
       };
     default:
       return state;
@@ -302,6 +309,23 @@ export function CommandCenterProvider({ children }) {
   }, [state]);
 
   useEffect(() => {
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateMotionPreference = () => {
+      dispatch({
+        type: "SET_REDUCED_MOTION",
+        prefersReducedMotion: motionQuery.matches,
+      });
+    };
+
+    updateMotionPreference();
+    motionQuery.addEventListener("change", updateMotionPreference);
+
+    return () => {
+      motionQuery.removeEventListener("change", updateMotionPreference);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!state.isPlaying || state.bootstrapStatus !== "ready") {
       return;
     }
@@ -347,11 +371,11 @@ export function CommandCenterProvider({ children }) {
   }, [capacityRecommendations, state.filters, state.searchQuery]);
   const selectedRecommendation = useMemo(() => {
     return (
-      recommendations.find(
+      visibleRecommendations.find(
         (recommendation) => recommendation.zoneIndex === state.selectedZoneId,
       ) ?? null
     );
-  }, [recommendations, state.selectedZoneId]);
+  }, [state.selectedZoneId, visibleRecommendations]);
 
   const availableDates = useMemo(
     () => state.metadata?.availableDates ?? [],

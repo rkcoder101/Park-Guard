@@ -1,4 +1,5 @@
 import { Database, MapPinned } from "lucide-react";
+import { useEffect } from "react";
 import { Badge } from "../components/common/Badge.jsx";
 import {
   CommandErrorState,
@@ -7,6 +8,7 @@ import {
 import { PageShell } from "../components/layout/PageShell.jsx";
 import { MapplsMap } from "../components/map/MapplsMap.jsx";
 import { RecommendationRail } from "../components/recommendations/RecommendationRail.jsx";
+import { TabletRecommendationSheet } from "../components/recommendations/TabletRecommendationSheet.jsx";
 import { SummaryCards } from "../components/timeline/SummaryCards.jsx";
 import { TimeControls } from "../components/timeline/TimeControls.jsx";
 import { CommandCenterProvider } from "../context/CommandCenterContext.jsx";
@@ -23,14 +25,27 @@ export function CommandCenterPage() {
 
 function CommandCenterContent() {
   const {
+    actions,
     bootstrapStatus,
+    canGoNext,
+    canGoPrevious,
     error,
+    isPlaying,
     manifest,
     metadata,
     mode,
+    prefersReducedMotion,
     selectedTargetTime,
     zones,
   } = useCommandCenter();
+
+  useCommandCenterKeyboardShortcuts({
+    actions,
+    canGoNext,
+    canGoPrevious,
+    isPlaying,
+    prefersReducedMotion,
+  });
 
   return (
     <PageShell
@@ -74,12 +89,66 @@ function CommandCenterContent() {
           <TimeControls />
           <SummaryCards />
 
-          <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_400px]">
-            <MapplsMap />
-            <RecommendationRail />
+          <section className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_420px] 2xl:grid-cols-[minmax(0,1fr)_460px]">
+            <div className="min-w-0">
+              <MapplsMap />
+            </div>
+            <div className="hidden min-w-0 xl:block">
+              <RecommendationRail />
+            </div>
+            <TabletRecommendationSheet />
           </section>
         </div>
       ) : null}
     </PageShell>
+  );
+}
+
+function useCommandCenterKeyboardShortcuts({
+  actions,
+  canGoNext,
+  canGoPrevious,
+  isPlaying,
+  prefersReducedMotion,
+}) {
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) {
+        return;
+      }
+      if (isEditableTarget(event.target)) {
+        return;
+      }
+
+      if (event.key === "ArrowLeft" && canGoPrevious) {
+        event.preventDefault();
+        actions.previousHour();
+      }
+      if (event.key === "ArrowRight" && canGoNext) {
+        event.preventDefault();
+        actions.nextHour();
+      }
+      if (event.key === " " && canGoNext && !prefersReducedMotion) {
+        event.preventDefault();
+        actions.setPlaying(!isPlaying);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [actions, canGoNext, canGoPrevious, isPlaying, prefersReducedMotion]);
+}
+
+function isEditableTarget(target) {
+  if (!(target instanceof HTMLElement)) {
+    return false;
+  }
+
+  return (
+    target.isContentEditable ||
+    ["INPUT", "SELECT", "TEXTAREA", "BUTTON"].includes(target.tagName)
   );
 }

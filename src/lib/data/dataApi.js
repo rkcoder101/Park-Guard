@@ -26,6 +26,15 @@ export async function loadCommandCenterBootstrap() {
   if (!Array.isArray(schedule?.entries)) {
     throw new Error("Schedule data is missing entries");
   }
+  for (const entry of schedule.entries) {
+    if (
+      typeof entry?.targetTime !== "string" ||
+      typeof entry?.dataFile !== "string" ||
+      typeof entry?.recommendedPatrols !== "number"
+    ) {
+      throw new Error("Schedule data contains a malformed entry");
+    }
+  }
   if (!Array.isArray(manifest?.recommendationFiles)) {
     throw new Error("Manifest data is missing recommendationFiles");
   }
@@ -44,6 +53,27 @@ export async function loadDailyRecommendations(path) {
   const promise = fetchJson(path).then((payload) => {
     if (!Array.isArray(payload?.hours)) {
       throw new Error(`Daily recommendation file ${path} is missing hours`);
+    }
+    for (const hour of payload.hours) {
+      if (typeof hour?.targetTime !== "string") {
+        throw new Error(`Daily recommendation file ${path} has a malformed hour`);
+      }
+      if (!Array.isArray(hour?.recommendations)) {
+        throw new Error(
+          `Daily recommendation file ${path} is missing recommendations for ${hour.targetTime}`,
+        );
+      }
+      for (const recommendation of hour.recommendations) {
+        if (
+          typeof recommendation?.recommendationId !== "string" ||
+          typeof recommendation?.zoneIndex !== "number" ||
+          typeof recommendation?.zoneGridId !== "string"
+        ) {
+          throw new Error(
+            `Daily recommendation file ${path} contains a malformed recommendation`,
+          );
+        }
+      }
     }
     return payload;
   });

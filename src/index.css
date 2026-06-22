@@ -42,6 +42,7 @@
 
   body {
     @apply min-h-screen bg-background text-foreground antialiased;
+    overflow-x: hidden;
     font-feature-settings:
       "cv02",
       "cv03",
@@ -58,6 +59,17 @@
 
   ::selection {
     background: hsl(var(--primary) / 0.28);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
