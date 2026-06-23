@@ -85,15 +85,15 @@ Approved wording:
 - `Forecast replay`
 - `Historical target hour`
 
-### 3.3 MapMyIndia usage
+### 3.3 Basemap usage
 
-The competition statement provides access to MapMyIndia proprietary mapping technology and localized traffic intelligence. In this prototype:
+The prototype uses a hosted vector basemap for geographic context. In this prototype:
 
-- MapMyIndia / Mappls is the map provider and visual basemap.
-- It may display the application’s existing coordinates, zone polygons, patrol markers, popups, and 500 m coverage circles.
+- The operational dashboard uses a hosted vector basemap for geographic context. Basemap data is used only for visualisation and is not included in the PARK-GUARD forecasting or prioritisation model.
+- It may display the application’s existing coordinates, zone polygons, patrol markers, popups, and 500 m geodesic coverage areas.
 - It must not supply analytical model features.
 - It must not inject external traffic values, road geometry, reverse-geocoded locality labels, route optimization, or congestion measurements into the model output.
-- Do not claim MapMyIndia traffic intelligence was used by the trained model unless such integration is implemented and separately validated later.
+- Do not claim basemap, routing, traffic, geocoding, or reverse-geocoding data was used by the trained model unless such integration is implemented and separately validated later.
 
 ### 3.4 Scenario estimates
 
@@ -149,7 +149,7 @@ The application is decision support only.
 - About page
 - Historical replay
 - Simulated-live replay
-- MapMyIndia / Mappls map
+- MapLibre / MapTiler map
 - Adaptive recommendations
 - Zone ID search
 - Recommendation filters
@@ -205,7 +205,7 @@ Tailwind CSS
 shadcn/ui
 Recharts
 Lucide React
-MapMyIndia / Mappls Web Maps SDK
+MapLibre GL JS with MapTiler hosted vector basemap
 ```
 
 Use React Context and focused custom hooks for shared state. Do not add Redux, Zustand, MobX, TanStack Query, or another state-management package unless the user explicitly approves it.
@@ -221,28 +221,29 @@ Date-partitioned JSON + zone GeoJSON
         ↓ static files in public/data
 React application
         ↓
-Mappls visualisation + interactive control-room UI
+MapLibre visualisation + interactive control-room UI
 ```
 
 No network request is required except:
 
 - loading the deployed static assets;
-- loading Mappls SDK/basemap resources.
+- loading hosted basemap resources.
 
 ### 5.3 Environment variables
 
 Use:
 
 ```text
-VITE_MAPPLS_MAP_SDK_KEY
+VITE_MAPTILER_API_KEY
+VITE_MAPTILER_STYLE_ID
 VITE_DATA_BASE_URL
 ```
 
 `VITE_DATA_BASE_URL` defaults to `/data`.
 
-Do not hardcode Mappls credentials. Do not log credentials. Do not commit `.env`.
+Do not hardcode basemap credentials. Do not log credentials. Do not commit `.env`.
 
-Map SDK integration must follow the credential type and current official Mappls documentation available to the user. If the credential type or SDK initialization API cannot be determined from the provided credential/dashboard instructions, Codex must ask before inventing an API signature.
+Map integration must follow the configured MapLibre / MapTiler contract. If the credential type or style configuration cannot be determined from the provided credential/dashboard instructions, Codex must ask before inventing a contract.
 
 ### 5.4 Recommended source structure
 
@@ -307,13 +308,15 @@ Codex may refine component names but must preserve the separation between:
 
 ### 5.5 Map adapter
 
-Mappls-specific logic must be isolated from application state.
+Map-renderer logic must be isolated from application state.
 
 Suggested boundary:
 
 ```text
-src/lib/map/mapplsLoader.js
-src/components/map/MapplsMap.jsx
+src/lib/map/mapConfig.js
+src/lib/map/mapStyles.js
+src/lib/map/geoJsonUtils.js
+src/components/map/ParkGuardMap.jsx
 ```
 
 The rest of the application should pass plain objects such as:
@@ -329,7 +332,7 @@ The rest of the application should pass plain objects such as:
 }
 ```
 
-Do not spread Mappls SDK calls across unrelated components.
+Do not spread map-renderer calls across unrelated components.
 
 ---
 
@@ -791,7 +794,7 @@ Required sections:
 6. Data confidence
 7. Balanced patrol coverage
 8. Adaptive deployment
-9. MapMyIndia role
+9. Basemap role
 10. Limitations and safeguards
 
 A compact validated-results strip may repeat the three landing metrics, but do not add a complex chart-heavy performance page.
@@ -804,11 +807,11 @@ A compact validated-results strip may repeat the three landing metrics, but do n
 
 Required map layers:
 
-1. Mappls basemap
+1. Hosted vector basemap
 2. Optional faint full 250 m analysis grid
 3. Recommended-zone polygons for selected hour
 4. Numbered patrol markers
-5. Selected-zone 500 m circle
+5. Selected-zone 500 m geodesic coverage area
 
 Provide a toggle:
 
@@ -887,7 +890,7 @@ Selected zone:
 
 ### 8.8 Map failure
 
-If Mappls credentials are missing or the SDK fails:
+If basemap credentials are missing or map loading fails:
 
 - display a clear map-unavailable panel;
 - show setup guidance in development;
@@ -1044,7 +1047,7 @@ Every data loader must distinguish:
 - malformed JSON;
 - empty valid data;
 - unavailable date;
-- missing Mappls credential.
+- missing basemap credential.
 
 Show user-friendly messages and log developer details without exposing credentials.
 
@@ -1139,7 +1142,7 @@ Provide:
 - no Express;
 - no database.
 
-Mappls credentials must be configured through Vercel environment variables.
+MapTiler credentials must be configured through Vercel environment variables.
 
 ---
 
@@ -1155,7 +1158,7 @@ The root README must include:
 6. source data files;
 7. one-time data preparation;
 8. local development instructions;
-9. Mappls credential setup;
+9. MapTiler credential setup;
 10. production build;
 11. Vercel deployment;
 12. limitations and safeguards;
@@ -1229,7 +1232,7 @@ The project is complete only when all conditions pass.
 - `npm run lint` passes.
 - `npm run build` passes.
 - Console has no application errors.
-- Missing Mappls credentials show a controlled state.
+- Missing basemap credentials show a controlled state.
 - `.env` is ignored by Git.
 - README is complete.
 - No backend or database code exists.
@@ -1277,7 +1280,7 @@ Codex must manually verify these flows.
 
 ### Scenario E: Map failure
 
-1. Remove Mappls credential.
+1. Remove basemap credential.
 2. Reload.
 3. Map-unavailable panel appears.
 4. List, timeline, filters, and details remain usable.

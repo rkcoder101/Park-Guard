@@ -9,7 +9,7 @@ This package contains the specification and staged prompts for building the PARK
 - JavaScript, not TypeScript
 - npm
 - Tailwind CSS + shadcn/ui
-- MapMyIndia / Mappls Web Maps SDK
+- MapLibre GL JS with MapTiler hosted vector basemap
 - Recharts
 - Lucide React
 - React Router
@@ -60,7 +60,7 @@ input-data/
 - `CODEX_OPERATING_RULES.md`: non-negotiable rules for Codex
 - `STAGED_PROMPTS.md`: prompts to execute one stage at a time
 - `INITIAL_CODEX_PROMPT.md`: the first prompt to paste into Codex
-- `.env.example`: Mappls credential placeholder
+- `.env.example`: MapTiler credential placeholder
 
 ## Recommended workflow
 
@@ -77,7 +77,7 @@ input-data/
 
 ## Credential handling
 
-Create a local `.env` file after obtaining Mappls credentials:
+Create a local `.env` file after obtaining MapTiler credentials:
 
 ```bash
 cp .env.example .env

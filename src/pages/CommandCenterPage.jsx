@@ -6,7 +6,7 @@ import {
   CommandLoadingState,
 } from "../components/timeline/CommandStatus.jsx";
 import { PageShell } from "../components/layout/PageShell.jsx";
-import { MapplsMap } from "../components/map/MapplsMap.jsx";
+import { ParkGuardMap } from "../components/map/ParkGuardMap.jsx";
 import { RecommendationRail } from "../components/recommendations/RecommendationRail.jsx";
 import { TabletRecommendationSheet } from "../components/recommendations/TabletRecommendationSheet.jsx";
 import { SummaryCards } from "../components/timeline/SummaryCards.jsx";
@@ -91,7 +91,7 @@ function CommandCenterContent() {
 
           <section className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_420px] 2xl:grid-cols-[minmax(0,1fr)_460px]">
             <div className="min-w-0">
-              <MapplsMap />
+              <ParkGuardMap />
             </div>
             <div className="hidden min-w-0 xl:block">
               <RecommendationRail />

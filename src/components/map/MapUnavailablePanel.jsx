@@ -3,7 +3,10 @@ import { Button } from "../common/Button.jsx";
 import { Panel } from "../common/Panel.jsx";
 
 export function MapUnavailablePanel({ onRetry, reason }) {
-  const hasMapKey = Boolean(import.meta.env.VITE_MAPPLS_MAP_SDK_KEY);
+  const hasMapKey = Boolean(import.meta.env.VITE_MAPTILER_API_KEY?.trim());
+  const hasStyleId = Boolean(
+    import.meta.env.VITE_MAPTILER_STYLE_ID?.trim() || "streets-v4",
+  );
 
   return (
     <Panel className="flex min-h-[520px] flex-col justify-between overflow-hidden p-0">
@@ -13,10 +16,11 @@ export function MapUnavailablePanel({ onRetry, reason }) {
             <Map className="h-5 w-5 text-primary" aria-hidden="true" />
           </span>
           <div>
-            <h2 className="text-lg font-semibold">Map unavailable</h2>
+            <h2 className="text-lg font-semibold">
+              Map configuration unavailable
+            </h2>
             <p className="text-sm text-muted-foreground">
-              Mappls integration is intentionally isolated until SDK
-              credentials and loading instructions are supplied.
+              The operational recommendations remain available in the list.
             </p>
           </div>
         </div>
@@ -33,13 +37,19 @@ export function MapUnavailablePanel({ onRetry, reason }) {
           <p className="mt-3 text-sm leading-6 text-muted-foreground">
             Timeline controls, adaptive recommendation lists, and zone
             selection are active. The visual basemap, polygons, markers, and
-            500 m coverage circle will be added after the current Mappls Web
-            Maps SDK method is confirmed.
+            500 m coverage area will load after the hosted vector basemap
+            configuration is available.
           </p>
           <div className="mt-5 rounded-md border border-border bg-background/70 px-4 py-3 text-left text-xs text-muted-foreground">
-            Credential status:{" "}
+            Basemap key status:{" "}
             <span className="font-semibold text-foreground">
-              {hasMapKey ? "configured" : "missing VITE_MAPPLS_MAP_SDK_KEY"}
+              {hasMapKey ? "configured" : "missing VITE_MAPTILER_API_KEY"}
+            </span>
+            <span className="mt-2 block">
+              Basemap style status:{" "}
+              <span className="font-semibold text-foreground">
+                {hasStyleId ? "configured" : "missing VITE_MAPTILER_STYLE_ID"}
+              </span>
             </span>
             {reason ? (
               <span className="mt-2 block">
@@ -66,15 +76,15 @@ export function MapUnavailablePanel({ onRetry, reason }) {
 
 function formatMapReason(reason) {
   const labels = {
-    "grid-creation-failed": "Grid overlay could not be created",
-    "mappls-global-unavailable": "SDK global unavailable",
-    "mappls-map-load-timeout": "Map initialization timed out",
-    "mappls-sdk-load-failed": "SDK script failed to load",
-    "mappls-sdk-timeout": "SDK script timed out",
-    "missing-key": "Missing map credential",
-    "missing-mappls-key": "Missing map credential",
+    "invalid-recommendation-coordinates": "Recommendation coordinates are invalid",
+    "malformed-zone-geojson": "Zone GeoJSON is malformed",
+    "map-load-timeout": "Map initialization timed out",
+    "map-style-error": "Basemap style could not be loaded",
+    "map-tile-error": "Basemap tiles could not be loaded",
+    "missing-maptiler-key": "Missing basemap key",
     "overlay-creation-failed": "Recommendation overlays could not be created",
     "selection-overlay-failed": "Selected-zone overlay could not be created",
+    "webgl-unsupported": "WebGL is unavailable in this browser",
   };
-  return labels[reason] ?? "Map provider unavailable";
+  return labels[reason] ?? "Basemap unavailable";
 }

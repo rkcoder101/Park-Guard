@@ -53,7 +53,7 @@ Pre-approved categories:
 - shadcn/ui dependencies
 - Recharts
 - Lucide React
-- Mappls SDK integration required by official instructions
+- MapLibre / MapTiler integration required by the provider-migration instructions
 
 Do not add a state-management library, map alternative, CSV parser for runtime, animation library, date library, test framework, or backend package without approval.
 
@@ -66,7 +66,7 @@ Do not add a state-management library, map alternative, CSV parser for runtime, 
 - Never commit `.env`.
 - Never silently drop invalid records; report them.
 - Never use the full recommendation CSV directly in the browser.
-- Never use MapMyIndia traffic intelligence as model input.
+- Never use hosted basemap, routing, traffic, geocoding, or reverse-geocoding data as model input.
 
 ## 5. Implementation approach
 
@@ -92,7 +92,7 @@ Do not rewrite unrelated files.
 - Centralize theme tokens.
 - Do not duplicate data transformation logic across components.
 - Use stable React keys.
-- Clean up timers and Mappls event listeners.
+- Clean up timers and map event listeners.
 - Avoid unnecessary effects.
 - Never suppress lint errors without explaining the cause.
 
@@ -132,7 +132,7 @@ Before final completion, also:
 
 - run `npm run dev`;
 - inspect browser console;
-- test missing Mappls credentials;
+- test missing basemap credentials;
 - test Peak Demo;
 - test Quiet Hour;
 - test zero-deployment hour;
@@ -151,4 +151,4 @@ If Git is initialized and the user approves commits:
 
 ## 11. Definition of honesty
 
-If something cannot be completed because Mappls credentials, SDK instructions, or source data are unavailable, Codex must say so. It must implement a controlled placeholder boundary or map-unavailable state, not pretend the integration works.
+If something cannot be completed because basemap credentials, provider instructions, or source data are unavailable, Codex must say so. It must implement a controlled placeholder boundary or map-unavailable state, not pretend the integration works.

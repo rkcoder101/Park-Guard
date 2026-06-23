@@ -30,7 +30,7 @@ export function RecommendationRail() {
           <div>
             <h2 className="text-lg font-semibold">Recommendation rail</h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Selecting a recommendation updates the map when Mappls is available.
+              Selecting a recommendation updates the map when the basemap is available.
             </p>
           </div>
           <ListFilter

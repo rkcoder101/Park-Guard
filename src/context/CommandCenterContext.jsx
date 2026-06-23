@@ -377,6 +377,12 @@ export function CommandCenterProvider({ children }) {
     );
   }, [state.selectedZoneId, visibleRecommendations]);
 
+  useEffect(() => {
+    if (state.selectedZoneId != null && !selectedRecommendation) {
+      dispatch({ type: "SET_SELECTED_ZONE", zoneId: null });
+    }
+  }, [selectedRecommendation, state.selectedZoneId]);
+
   const availableDates = useMemo(
     () => state.metadata?.availableDates ?? [],
     [state.metadata],

@@ -1,6 +1,6 @@
 # PARK-GUARD
 
-PARK-GUARD is a static React + Vite web prototype for historical parking-pressure simulation and adaptive patrol recommendation review. It loads packaged JSON and GeoJSON assets from `public/data`, presents a command-centre workflow, and keeps MapMyIndia / Mappls usage isolated to visual basemap and overlay rendering.
+PARK-GUARD is a static React + Vite web prototype for historical parking-pressure simulation and adaptive patrol recommendation review. It loads packaged JSON and GeoJSON assets from `public/data`, presents a command-centre workflow, and uses a hosted vector basemap only for geographic context.
 
 This UI is a historical simulation. It does not imply live monitoring, automatic enforcement, traffic reduction, or causal congestion impact.
 
@@ -9,7 +9,7 @@ This UI is a historical simulation. It does not imply live monitoring, automatic
 Screenshots should be added after final visual review:
 
 - Landing page
-- Command Centre with Mappls available
+- Command Centre with hosted vector basemap available
 - Command Centre with controlled Map Unavailable state
 - Recommendation filters and zone detail panel
 - Tablet recommendation sheet
@@ -25,7 +25,7 @@ Screenshots should be added after final visual review:
 - Recommendation search and filters for confidence, action, disruption class, verification, and current evidence.
 - Zone detail panel with evidence, confidence notes, reason-code chips, and scenario estimates.
 - Non-causal 30 / 60 / 90 scenario simulator using packaged values only.
-- Mappls adapter boundary with controlled fallback when credentials or SDK loading fail.
+- MapLibre renderer boundary with controlled fallback when basemap configuration or loading fails.
 - Static Vercel-compatible SPA routing.
 
 ## Validated Metrics
@@ -47,12 +47,12 @@ PARK-GUARD has no backend, database, authentication, or serverless API. The brow
 - `src/context`: Command Centre reducer, derived state, replay controls, persistence, and data loading.
 - `src/components`: layout, timeline, recommendation, scenario, and map UI.
 - `src/lib/data`: static JSON loading helpers.
-- `src/lib/map`: isolated Mappls SDK loader and adapter.
+- `src/lib/map`: isolated MapLibre configuration, styles, and GeoJSON helpers.
 - `src/lib/storage`: localStorage persistence.
 - `scripts/prepare_web_data.py`: one-time data build utility.
 - `public/data`: generated web-ready static assets.
 
-Mappls-specific calls are kept out of application state and concentrated in `src/lib/map` plus `src/components/map`.
+Basemap rendering is kept out of application state and concentrated in `src/lib/map` plus `src/components/map`.
 
 ## Repository Structure
 
@@ -156,29 +156,31 @@ npm run preview
 Use `.env.example` as the non-secret template:
 
 ```env
-VITE_MAPPLS_MAP_SDK_KEY=
+VITE_MAPTILER_API_KEY=
+VITE_MAPTILER_STYLE_ID=streets-v4
 VITE_DATA_BASE_URL=/data
 ```
 
 Do not commit a real `.env` file. `.env`, `.env.local`, and `.env.*.local` are ignored by Git.
 
-## Mappls Credential Setup
+## MapTiler Basemap Setup
 
-Create a MapMyIndia / Mappls Web Maps SDK credential and configure the deployed Vercel hostname in the Mappls console. Then set the key as an environment variable:
+Create a MapTiler API key for the deployed hostname. Then set the key as an environment variable:
 
 ```bash
-npx vercel env add VITE_MAPPLS_MAP_SDK_KEY production
+npx vercel env add VITE_MAPTILER_API_KEY production
 ```
 
-Also configure the data base URL:
+Configure the style and data base URL:
 
 ```bash
+npx vercel env add VITE_MAPTILER_STYLE_ID production
 npx vercel env add VITE_DATA_BASE_URL production
 ```
 
-Use `/data` as the value for `VITE_DATA_BASE_URL`.
+Use `streets-v4` as the default value for `VITE_MAPTILER_STYLE_ID` and `/data` as the value for `VITE_DATA_BASE_URL`.
 
-If the key is missing or the SDK request fails, the app shows the controlled Map Unavailable state. Timeline, recommendation filters, list selection, and zone details remain usable.
+If the basemap key is missing or map loading fails, the app shows the controlled map configuration state. Timeline, recommendation filters, list selection, and zone details remain usable.
 
 ## Production Build
 
@@ -227,20 +229,21 @@ Production deployment:
 npx vercel --prod
 ```
 
-Do not upload secret-bearing local `.env` files. Configure Mappls credentials through Vercel environment variables.
+Do not upload secret-bearing local `.env` files. Configure MapTiler credentials through Vercel environment variables.
 
 ## Limitations and Safeguards
 
 - Historical simulation only; no live feed is implied.
 - Recommendations are decision-support signals, not automatic dispatch or enforcement actions.
 - Scenario estimates are hypothetical local pressure-suppression values, not causal guarantees of congestion reduction.
-- Mappls is used only for visual basemap and overlays; the app does not use Mappls routing, traffic, geocoding, locality names, or external analysis.
+- The operational dashboard uses a hosted vector basemap for geographic context. Basemap data is used only for visualisation and is not included in the PARK-GUARD forecasting or prioritisation model.
+- The app does not use routing, traffic, geocoding, reverse geocoding, locality names, or external analysis.
 - No actual future outcome fields are exposed in operational assets.
-- Missing or failing Mappls credentials produce a controlled fallback panel.
+- Missing or failing basemap configuration produces a controlled fallback panel.
 - No backend, database, authentication, or serverless API is included.
 
 ## Dependency Audit
 
-Runtime dependencies are limited to React, React Router, Recharts, Lucide icons, and small class-name helpers. Development dependencies are Vite, ESLint, Tailwind CSS, PostCSS, Autoprefixer, and React ESLint plugins.
+Runtime dependencies are limited to React, React Router, Recharts, Lucide icons, MapLibre GL JS, and small class-name helpers. Development dependencies are Vite, ESLint, Tailwind CSS, PostCSS, Autoprefixer, and React ESLint plugins.
 
 No dependency is used to provide a backend, database, authentication, or serverless runtime.

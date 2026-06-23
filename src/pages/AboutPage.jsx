@@ -25,7 +25,7 @@ const methodologySections = [
   {
     icon: Database,
     title: "Data flow",
-    copy: "Source CSV and Parquet outputs are preprocessed once into date-partitioned JSON and generated zone GeoJSON. The browser loads static assets only, plus Mappls basemap resources when credentials are configured.",
+    copy: "Source CSV and Parquet outputs are preprocessed once into date-partitioned JSON and generated zone GeoJSON. The browser loads static assets only, plus hosted vector basemap resources when configured.",
   },
   {
     icon: BarChart3,
@@ -59,8 +59,8 @@ const methodologySections = [
   },
   {
     icon: Map,
-    title: "MapMyIndia role",
-    copy: "MapMyIndia / Mappls is the visual basemap provider for existing coordinates, zone polygons, markers, popups, and coverage circles. It is not used as an analytical model input in this prototype.",
+    title: "Basemap role",
+    copy: "The operational dashboard uses a hosted vector basemap for geographic context. Basemap data is used only for visualisation and is not included in the PARK-GUARD forecasting or prioritisation model.",
   },
   {
     icon: Route,

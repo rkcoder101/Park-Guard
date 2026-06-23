@@ -16,7 +16,7 @@ Report:
 2. source files found and missing;
 3. exact columns found in each CSV and Parquet source;
 4. whether the data satisfies the documented contract;
-5. Mappls credential/documentation information still needed;
+5. hosted vector basemap credential/documentation information still needed;
 6. proposed application architecture;
 7. proposed dependencies;
 8. proposed file tree;
@@ -101,7 +101,7 @@ Landing requirements:
 
 About requirements:
 - methodology sections specified in MASTER_SPEC.md;
-- role of MapMyIndia;
+- basemap role;
 - incident-pressure definition;
 - adaptive deployment;
 - confidence;
@@ -137,7 +137,7 @@ Implement:
 - Top 5, Top 10, and All recommended capacity control.
 
 Build the Command Centre shell with a map placeholder and a functional recommendation rail.
-Do not integrate Mappls yet.
+Do not integrate the hosted vector basemap yet.
 Do not show actual outcomes.
 
 Run lint and build. Stop for functional review.
@@ -147,14 +147,14 @@ Approval gate: verify timeline and latest-hour count.
 
 ---
 
-## Stage 5 — MapMyIndia / Mappls integration
+## Stage 5 — MapLibre / MapTiler integration
 
 ```text
 Proceed with Stage 5 only.
 
-Before editing, inspect the supplied Mappls credential/dashboard instructions and identify the exact current Web Maps SDK loading and initialization method. Do not invent an API signature.
+Before editing, inspect the supplied hosted-basemap credential/dashboard instructions and confirm the expected MapTiler style URL configuration. Do not invent a credential contract.
 
-Implement the Mappls provider adapter using VITE_MAPPLS_MAP_SDK_KEY.
+Implement the MapLibre renderer using `VITE_MAPTILER_API_KEY` and `VITE_MAPTILER_STYLE_ID`.
 
 Required behaviour:
 - basemap;
@@ -165,11 +165,11 @@ Required behaviour:
 - confidence rings;
 - metric-based marker emphasis;
 - optional all-zone grid;
-- selected-zone 500 m circle;
+- selected-zone 500 m geodesic coverage area;
 - synchronized map/list selection;
 - pan/zoom on selection;
 - controlled map-unavailable state;
-- full cleanup of SDK listeners and objects.
+- full cleanup of map listeners and objects.
 
 Do not use routing, traffic, geocoding, locality names, or external analytical data.
 
@@ -228,7 +228,7 @@ Polish:
 - zero-deployment hours;
 - filter-empty state;
 - malformed-data state;
-- Mappls failure state;
+- basemap failure state;
 - refresh persistence;
 - Peak Demo and Quiet Hour flows;
 - visible IST labelling;
@@ -250,7 +250,7 @@ Proceed with Stage 8 only.
 Complete:
 - professional README;
 - data-preparation instructions;
-- Mappls credential setup;
+- MapTiler credential setup;
 - Vercel setup;
 - architecture section;
 - limitations and safeguards;
